@@ -89,5 +89,5 @@ sw.*
 # Vim swap files
 *.swp
 
-./setting.ts
+setting.ts
 
