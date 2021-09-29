@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html {{ HTML_ATTRS }}>
   <head {{ HEAD_ATTRS }}>
+    <!-- xzbiz scripts -->
     <script
       async
       src="https://dev-biz.xz-closet.jp/assets/tag-sample-site/tag-loader/xzbiz-script-loader.js?type=search&version=3.1.0&env=dev&site=andmall&initMode=manual"
@@ -15,15 +16,6 @@
     ></script>
 
     {{ HEAD }}
-    <script>
-      window.onload = () => {
-        console.log("window onload!");
-      };
-
-      document.addEventListener("DOMContentLoaded", () => {
-        console.log("window DOMContentLoaded!");
-      });
-    </script>
   </head>
   <body {{ BODY_ATTRS }}>
     {{ APP }}
