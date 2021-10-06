@@ -53,14 +53,14 @@ export default class Suggest extends Vue {
 
       // 万が一タグがロードできてない場合はここで終了
       if (
-        !window.closke ||
-        !window.closke.suggest ||
-        !window.closke.suggest.init
+        !window.xzbiz ||
+        !window.xzbiz.suggest ||
+        !window.xzbiz.suggest.init
       ) {
         return;
       }
 
-      window.closke.suggest
+      window.xzbiz.suggest
         .init(initParams)
         .then((controller: XzBizController) => {
           this.xzBizController = controller;
