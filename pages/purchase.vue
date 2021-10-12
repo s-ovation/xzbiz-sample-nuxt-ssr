@@ -10,51 +10,59 @@
 import { Component, Vue } from "vue-property-decorator";
 import { XzBizController } from "@/interface";
 import { API_KEY, ENC_EC_USER_ID, SITE_NAME } from "@/setting";
+import { intervalCheck } from "~/utils/util";
 
 declare const window: any;
 
 @Component({
   components: {}
 })
-export default class Suggest extends Vue {
+export default class Purchase extends Vue {
   mounted(): void {
     // bizの実行はブラウザ上で行いためmounted内で初期化してください
-    console.log("suggest page mounted!");
+    console.log("purchase page mounted!");
 
-    setTimeout(() => {
-      const initParams = {
-        debugMode: true,
-        apiKey: API_KEY,
-        site: SITE_NAME,
-        encEcUserId: ENC_EC_USER_ID,
-        orderId: "xxxxxxxxxxxxx",
-        productList: [
-          {
-            productId: "123456789",
-            unitPrice: 9999,
-            taxIncludedPrice: 10999,
-            quantity: 1
-          },
-          {
-            productId: "987654321",
-            unitPrice: 1111,
-            taxIncludedPrice: 1222,
-            quantity: 2
-          }
-        ]
-      };
+    intervalCheck(
+      // チェック内容
+      () => {
+        // タグの読み込みこまれてwindowへのxzbizオブジェクトの設定が完了しているかどうか
+        return (
+          window.xzbiz && window.xzbiz.purchase && window.xzbiz.purchase.init
+        );
+      },
+      // チェックがパスしたらこのメソッドを実行
+      () => {
+        this.initXzBiz();
+      },
+      200, // チェック間隔 (ms)
+      5 // チェック上限回数
+    );
+  }
 
-      // 万が一タグがロードできてない場合はここで終了
-      if (
-        !window.xzbiz ||
-        !window.xzbiz.purchase ||
-        !window.xzbiz.purchase.init
-      ) {
-        return;
-      }
+  initXzBiz(): void {
+    const initParams = {
+      debugMode: true,
+      apiKey: API_KEY,
+      site: SITE_NAME,
+      encEcUserId: ENC_EC_USER_ID,
+      orderId: "xxxxxxxxxxxxx",
+      productList: [
+        {
+          productId: "123456789",
+          unitPrice: 9999,
+          taxIncludedPrice: 10999,
+          quantity: 1
+        },
+        {
+          productId: "987654321",
+          unitPrice: 1111,
+          taxIncludedPrice: 1222,
+          quantity: 2
+        }
+      ]
+    };
 
-      window.xzbiz.purchase.init(initParams);
-    }, 300);
+    window.xzbiz.purchase.init(initParams);
   }
 }
 </script>
